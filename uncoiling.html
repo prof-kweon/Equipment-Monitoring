@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>공정 상세 - 언코일링</title>
+
+<style>
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui;
+  background: white;
+  color: #111827;
+  padding: 40px 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ---------------- HEADER ROW ---------------- */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.header-title {
+  font-size: 38px;
+  font-weight: 900;
+}
+
+.status-badge {
+  background: #16a34a;
+  padding: 12px 26px;
+  color: white;
+  border-radius: 999px;
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 auto;
+}
+
+.back-btn {
+  padding: 12px 22px;
+  font-size: 18px;
+  font-weight: 700;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.back-btn:hover {
+  opacity: 0.9;
+}
+
+/* ---------------- GRID ---------------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+.card {
+  background: #fafafa;
+  border: 1px solid #e5e7eb;
+  border-radius: 22px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  text-align: center; /* ★ 중앙정렬 적용 */
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+/* METRIC */
+.metric-label {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 14px;
+  text-align: left; /* ★ 중앙정렬 적용 */  
+}
+
+.metric-value {
+  font-size: 34px;
+  font-weight: 900;
+  margin-top: 6px;
+}
+
+/* BAR CHART */
+.bar-chart {
+  height: 160px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 12px;
+}
+
+.bar {
+  width: 22%;
+  background: #60a5fa;
+  border-radius: 6px 6px 0 0;
+}
+
+/* GAUGE */
+.gauge-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.gauge {
+  width: 170px;
+  height: 85px;
+  border-radius: 170px 170px 0 0;
+  background: conic-gradient(#16a34a 0 180deg, #d1d5db 180deg 360deg);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 12px;
+}
+
+.gauge-text {
+  font-size: 34px;
+  font-weight: 900;
+}
+
+/* DONUT */
+.donut-wrap {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(#3b82f6 0 45deg, #e5e7eb 45deg 360deg);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.donut-inner {
+  width: 85px;
+  height: 85px;
+  background: white;
+  border-radius: 50%;
+  font-size: 32px;
+  font-weight: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* KPI BAR */
+.kpi-bar-track {
+  width: 100%;
+  height: 20px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  margin: 12px 0 20px 0;
+}
+
+.kpi-bar-fill {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media(max-width: 1200px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HEADER (single row) -->
+  <div class="header-row">
+    <div class="header-title">공정 상세 - 언코일링</div>
+
+    <div class="status-badge">Running</div>
+
+    <button class="back-btn" onclick="location.href='line1.html'">← 라인으로 돌아가기</button>
+  </div>
+
+
+  <!-- GRID 6 CARDS -->
+  <div class="grid">
+
+    <!-- CARD 1 -->
+    <div class="card">
+      <div class="card-title">주요 지표</div>
+
+      <div class="metric-label">용접 전류</div>
+      <div class="metric-value">2.6 t</div>
+
+      <div class="metric-label">언코일링 속도</div>
+      <div class="metric-value">20 m/min</div>
+
+      <div class="metric-label">코일 중량</div>
+      <div class="metric-value">6.5 t</div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card">
+      <div class="card-title">불량 현황</div>
+      <div class="bar-chart">
+        <div class="bar" style="height: 120px"></div>
+        <div class="bar" style="height: 90px"></div>
+        <div class="bar" style="height: 70px"></div>
+        <div class="bar" style="height: 55px"></div>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card">
+      <div class="card-title">설비 상태</div>
+
+      <div class="gauge-wrap">
+        <div class="gauge">
+          <div class="gauge-text">88%</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px; font-size: 20px; font-weight: 700;">알림</div>
+      <div style="font-size: 18px; margin-top: 6px;">- 표면 이상 감지</div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="card">
+      <div class="card-title">불량률</div>
+
+      <div class="donut-wrap">
+        <div class="donut-inner">12%</div>
+      </div>
+
+      <div style="margin-top: 20px; font-size: 22px; font-weight: 800;">
+        효율 80%
+      </div>
+    </div>
+
+    <!-- CARD 5 -->
+    <div class="card">
+      <div class="card-title">KPI - 출력</div>
+
+      <div class="metric-label">Output</div>
+
+      <div class="kpi-bar-track">
+        <div class="kpi-bar-fill" style="width:70%"></div>
+      </div>
+
+      <div class="metric-value">400</div>
+    </div>
+
+    <!-- CARD 6 -->
+    <div class="card">
+      <div class="card-title">추가 KPI</div>
+
+      <div class="metric-label">Cycle Time</div>
+      <div class="metric-value">50.2 s</div>
+
+      <div class="metric-label">정상 비율</div>
+      <div class="metric-value">92%</div>
+
+      <div class="metric-label">가동률</div>
+      <div class="metric-value">95%</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

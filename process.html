@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>공정 상세 페이지</title>
+
+<style>
+/* RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', Pretendard, system-ui, sans-serif;
+  background: #f2f4f8;
+  color: #1e293b;
+  padding: 40px 0;
+}
+
+/* 전체 컨테이너 */
+.container {
+  width: 100%;
+  max-width: 1500px;
+  margin: auto;
+  padding: 0 30px;
+}
+
+/* ---------------- HEADER ---------------- */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+  padding: 22px 28px;
+  background: linear-gradient(135deg, #ffffff, #f0f2f5);
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.header-title {
+  font-size: 40px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.status-badge {
+  background: linear-gradient(135deg, #16a34a, #4ade80);
+  padding: 12px 26px;
+  color: white;
+  border-radius: 999px;
+  font-size: 20px;
+  font-weight: 900;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.back-btn {
+  padding: 12px 24px;
+  font-size: 18px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: white;
+  border: none;
+  font-weight: 800;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.back-btn:hover { opacity: 0.9; }
+
+/* ---------------- GRID ---------------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* ---------------- CARD ---------------- */
+.card {
+  background: linear-gradient(135deg, #ffffff, #eef1f5);
+  border-radius: 20px;
+  padding: 26px 30px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  text-align: center;
+  border: 1px solid #d7dde5;
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 22px;
+}
+
+/* METRICS */
+.metric-label {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 16px;
+  color: #475569;
+  text-align: left;
+}
+
+.metric-value {
+  font-size: 36px;
+  font-weight: 900;
+  color: #1e3a8a;
+  margin-top: 6px;
+}
+
+/* Chart Wrappers */
+.chart-box {
+  width: 100%;
+  height: 180px;
+  position: relative;
+}
+
+.chart-canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Center Text for charts */
+.center-text {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.center-text.donut-text {
+  top: 50%;
+}
+
+/* Sub text */
+.sub-text {
+  margin-top: 18px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #334155;
+}
+
+/* Responsive */
+@media(max-width: 1200px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header-row">
+    <div id="processTitle" class="header-title">공정 상세</div>
+
+    <div class="status-badge" id="statusBadge">Running</div>
+
+    <button class="back-btn" onclick="location.href='line1.html'">
+      ← 라인으로 돌아가기
+    </button>
+  </div>
+
+  <!-- GRID (3 x 2) -->
+  <div class="grid">
+
+    <!-- 주요 지표 -->
+    <div class="card">
+      <div class="card-title">주요 지표</div>
+      <div class="metric-label" id="metric1Label"></div>
+      <div class="metric-value" id="metric1Value"></div>
+
+      <div class="metric-label" id="metric2Label"></div>
+      <div class="metric-value" id="metric2Value"></div>
+
+      <div class="metric-label" id="metric3Label"></div>
+      <div class="metric-value" id="metric3Value"></div>
+    </div>
+
+    <!-- 불량 바 차트 -->
+    <div class="card">
+      <div class="card-title">불량 현황</div>
+      <div class="chart-box"><canvas id="defectBarChart" class="chart-canvas"></canvas></div>
+    </div>
+
+    <!-- 설비 상태 게이지 -->
+    <div class="card">
+      <div class="card-title">설비 상태</div>
+      <div class="chart-box">
+        <canvas id="gaugeChart" class="chart-canvas"></canvas>
+        <div class="center-text" id="gaugeText"></div>
+      </div>
+      <div class="sub-text">알림</div>
+      <div style="font-size:18px;margin-top:6px;" id="alertText"></div>
+    </div>
+
+    <!-- 불량률 도넛 -->
+    <div class="card">
+      <div class="card-title">불량률</div>
+      <div class="chart-box">
+        <canvas id="defectDonutChart" class="chart-canvas"></canvas>
+        <div class="center-text donut-text" id="defectDonutText"></div>
+      </div>
+      <div class="sub-text" id="efficiencyText"></div>
+    </div>
+
+    <!-- 출력 -->
+    <div class="card">
+      <div class="card-title">KPI - 출력</div>
+      <div class="metric-label">Output</div>
+      <div class="chart-box"><canvas id="outputBarChart" class="chart-canvas"></canvas></div>
+      <div class="metric-value" id="outputValue"></div>
+    </div>
+
+    <!-- 추가 KPI -->
+    <div class="card">
+      <div class="card-title">추가 KPI</div>
+      <div class="metric-label" id="extra1Label"></div>
+      <div class="metric-value" id="extra1Value"></div>
+
+      <div class="metric-label" id="extra2Label"></div>
+      <div class="metric-value" id="extra2Value"></div>
+
+      <div class="metric-label" id="extra3Label"></div>
+      <div class="metric-value" id="extra3Value"></div>
+    </div>
+
+  </div> <!-- END GRID -->
+
+</div>
+
+<!-- CHART.JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* ---------------- 공정별 설정 ---------------- */
+const processConfigs = {
+  uncoiling: {
+    title: "언코일링 공정",
+    metrics: [
+      { label: "용접 전류", value: "2.6 t" },
+      { label: "라인 속도", value: "20 m/min" },
+      { label: "코일 중량", value: "6.5 t" }
+    ],
+    defects: [12, 9, 7, 5],
+    gaugeValue: 88,
+    alert: "- 표면 이상 감지",
+    defectRate: 12,
+    efficiency: 80,
+    output: 400,
+    extra: [
+      { label: "Cycle Time", value: "50.2 s" },
+      { label: "정상 비율", value: "92%" },
+      { label: "가동률", value: "95%" }
+    ]
+  },
+
+  slitting: {
+    title: "슬리팅 공정",
+    metrics: [
+      { label: "슬리팅 속도", value: "18 m/min" },
+      { label: "슬리팅 폭", value: "120 mm" },
+      { label: "코일 중량", value: "5.8 t" }
+    ],
+    defects: [8, 6, 4, 3],
+    gaugeValue: 90,
+    alert: "- 커팅 품질 확인 필요",
+    defectRate: 8,
+    efficiency: 85,
+    output: 380,
+    extra: [
+      { label: "Cycle Time", value: "48.0 s" },
+      { label: "정상 비율", value: "94%" },
+      { label: "가동률", value: "96%" }
+    ]
+  },
+
+  forming: {
+    title: "성형 공정",
+    metrics: [
+      { label: "성형 압력", value: "4.2 t" },
+      { label: "라인 속도", value: "16 m/min" },
+      { label: "두께 편차", value: "±0.2 mm" }
+    ],
+    defects: [10, 7, 5, 4],
+    gaugeValue: 86,
+    alert: "- 치수 편차 경고",
+    defectRate: 10,
+    efficiency: 82,
+    output: 360,
+    extra: [
+      { label: "Cycle Time", value: "52.0 s" },
+      { label: "정상 비율", value: "91%" },
+      { label: "가동률", value: "93%" }
+    ]
+  },
+
+  welding: {
+    title: "용접 공정",
+    metrics: [
+      { label: "용접 전류", value: "3.1 kA" },
+      { label: "용접 속도", value: "15 m/min" },
+      { label: "스패터 횟수", value: "12 /min" }
+    ],
+    defects: [14, 11, 8, 6],
+    gaugeValue: 82,
+    alert: "- 용접 스패터 증가",
+    defectRate: 14,
+    efficiency: 78,
+    output: 340,
+    extra: [
+      { label: "Cycle Time", value: "54.5 s" },
+      { label: "정상 비율", value: "89%" },
+      { label: "가동률", value: "90%" }
+    ]
+  },
+
+  beadremoving: {
+    title: "비드 제거 공정",
+    metrics: [
+      { label: "제거 속도", value: "17 m/min" },
+      { label: "비드 높이", value: "0.4 mm" },
+      { label: "라인 온도", value: "45 ℃" }
+    ],
+    defects: [7, 5, 3, 2],
+    gaugeValue: 92,
+    alert: "- 이상 없음",
+    defectRate: 7,
+    efficiency: 88,
+    output: 410,
+    extra: [
+      { label: "Cycle Time", value: "49.0 s" },
+      { label: "정상 비율", value: "96%" },
+      { label: "가동률", value: "97%" }
+    ]
+  },
+
+  cooling: {
+    title: "냉각 공정",
+    metrics: [
+      { label: "입구 온도", value: "650 ℃" },
+      { label: "출구 온도", value: "120 ℃" },
+      { label: "냉각수 유량", value: "12 m³/h" }
+    ],
+    defects: [5, 4, 3, 2],
+    gaugeValue: 94,
+    alert: "- 냉각 상태 양호",
+    defectRate: 5,
+    efficiency: 92,
+    output: 420,
+    extra: [
+      { label: "Cycle Time", value: "47.5 s" },
+      { label: "정상 비율", value: "97%" },
+      { label: "가동률", value: "98%" }
+    ]
+  },
+
+  inspection: {
+    title: "검사 공정",
+    metrics: [
+      { label: "검사 속도", value: "30 pcs/min" },
+      { label: "검사 항목", value: "12 종" },
+      { label: "자동 검사 비율", value: "90%" }
+    ],
+    defects: [6, 5, 3, 2],
+    gaugeValue: 91,
+    alert: "- 육안 검사 보완",
+    defectRate: 6,
+    efficiency: 90,
+    output: 390,
+    extra: [
+      { label: "Cycle Time", value: "51.0 s" },
+      { label: "정상 비율", value: "95%" },
+      { label: "가동률", value: "94%" }
+    ]
+  },
+
+  painting: {
+    title: "도장 공정",
+    metrics: [
+      { label: "도막 두께", value: "60 μm" },
+      { label: "도장 속도", value: "14 m/min" },
+      { label: "건조 온도", value: "180 ℃" }
+    ],
+    defects: [9, 7, 5, 4],
+    gaugeValue: 87,
+    alert: "- 색상 편차 모니터링",
+    defectRate: 9,
+    efficiency: 84,
+    output: 350,
+    extra: [
+      { label: "Cycle Time", value: "53.0 s" },
+      { label: "정상 비율", value: "92%" },
+      { label: "가동률", value: "92%" }
+    ]
+  },
+
+  shipping: {
+    title: "출하 공정",
+    metrics: [
+      { label: "출하 수량", value: "1200 pcs" },
+      { label: "트럭 회차", value: "8 회" },
+      { label: "대기 재고", value: "240 pcs" }
+    ],
+    defects: [3, 2, 1, 1],
+    gaugeValue: 96,
+    alert: "- 출하 일정 정상",
+    defectRate: 3,
+    efficiency: 95,
+    output: 450,
+    extra: [
+      { label: "On-time율", value: "98%" },
+      { label: "클레임 건수", value: "0 건" },
+      { label: "가동률", value: "99%" }
+    ]
+  }
+};
+
+
+/* ---------------- 초기 로딩 ---------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const key = params.get("process") || "uncoiling";
+  const cfg = processConfigs[key];
+
+  document.getElementById("processTitle").textContent = cfg.title;
+  document.getElementById("statusBadge").textContent = "Running";
+
+  document.getElementById("metric1Label").textContent = cfg.metrics[0].label;
+  document.getElementById("metric1Value").textContent = cfg.metrics[0].value;
+
+  document.getElementById("metric2Label").textContent = cfg.metrics[1].label;
+  document.getElementById("metric2Value").textContent = cfg.metrics[1].value;
+
+  document.getElementById("metric3Label").textContent = cfg.metrics[2].label;
+  document.getElementById("metric3Value").textContent = cfg.metrics[2].value;
+
+  document.getElementById("alertText").textContent = cfg.alert;
+  document.getElementById("efficiencyText").textContent = `효율 ${cfg.efficiency}%`;
+  document.getElementById("outputValue").textContent = cfg.output;
+
+  document.getElementById("extra1Label").textContent = cfg.extra[0].label;
+  document.getElementById("extra1Value").textContent = cfg.extra[0].value;
+
+  document.getElementById("extra2Label").textContent = cfg.extra[1].label;
+  document.getElementById("extra2Value").textContent = cfg.extra[1].value;
+
+  document.getElementById("extra3Label").textContent = cfg.extra[2].label;
+  document.getElementById("extra3Value").textContent = cfg.extra[2].value;
+
+  createDefectBarChart(cfg.defects);
+  createGaugeChart(cfg.gaugeValue);
+  createDefectDonutChart(cfg.defectRate);
+  createOutputBarChart(cfg.output);
+});
+
+/* ---------------- 차트 생성 함수 ---------------- */
+
+function createDefectBarChart(values) {
+  const ctx = document.getElementById("defectBarChart").getContext("2d");
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["A", "B", "C", "D"],
+      datasets: [{
+        data: values,
+        backgroundColor: "#60a5fa",
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { x: { display: false }, y: { display: false } },
+      animation: { duration: 900, easing: "easeOutQuart" }
+    }
+  });
+}
+
+function createGaugeChart(value) {
+  const ctx = document.getElementById("gaugeChart").getContext("2d");
+  const percent = value;
+
+  // 중앙 텍스트 표시
+  document.getElementById("gaugeText").textContent = percent + "%";
+
+  // 게이지 구간 정의 (0~100)
+  const greenStart = 50;
+  const greenEnd = 90;
+
+  // 각 구간의 크기 계산
+  const part1 = greenStart;           // 0~50 (회색)
+  const part2 = greenEnd - greenStart; // 50~90 (녹색)
+  const part3 = 100 - greenEnd;       // 90~100 (회색)
+
+  // Needle 위치 계산
+  const angle = (percent / 100) * Math.PI; // 180° 기준
+
+  // 기존 차트 제거 (중복 방지)
+  if (window.gaugeChartInstance) {
+    window.gaugeChartInstance.destroy();
+  }
+
+  // 차트 생성
+  window.gaugeChartInstance = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Low", "Optimal", "High"],
+      datasets: [
+        {
+          data: [part1, part2, part3],
+          backgroundColor: ["#d1d5db", "#16a34a", "#d1d5db"],
+          borderWidth: 0,
+          cutout: "70%",
+          circumference: 180,
+          rotation: 270
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+
+      animation: {
+        animateRotate: true,
+        duration: 1200
+      }
+    },
+
+    plugins: [
+      {
+        id: "gaugeNeedle",
+        afterDraw(chart) {
+          const { ctx, chartArea: { width, height, top } } = chart;
+          const centerX = width / 2;
+          const centerY = height - 10;
+
+          ctx.save();
+          ctx.translate(centerX, centerY);
+          ctx.rotate(angle - Math.PI);  // 반원 기준 needle 조정
+
+          // Needle (화살표)
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(0, -height * 0.65);
+          ctx.lineWidth = 6;
+          ctx.strokeStyle = "#111";
+          ctx.stroke();
+
+          // Needle 중심 점
+          ctx.beginPath();
+          ctx.arc(0, 0, 6, 0, Math.PI * 2);
+          ctx.fillStyle = "#111";
+          ctx.fill();
+
+          ctx.restore();
+        }
+      }
+    ]
+  });
+}
+
+
+function createDefectDonutChart(rate) {
+  const ctx = document.getElementById("defectDonutChart").getContext("2d");
+  document.getElementById("defectDonutText").textContent = rate + "%";
+
+  new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      datasets: [{
+        data: [rate, 100 - rate],
+        backgroundColor: ["#3b82f6", "#e5e7eb"],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      cutout: "70%",
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      animation: { duration: 900 }
+    }
+  });
+}
+
+function createOutputBarChart(output) {
+  const ctx = document.getElementById("outputBarChart").getContext("2d");
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: [""],
+      datasets: [{
+        data: [output],
+        backgroundColor: "#3b82f6",
+        borderRadius: 10
+      }]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { display: false, max: 500 },
+        y: { display: false }
+      },
+      animation: { duration: 900, easing: "easeOutExpo" }
+    }
+  });
+}
+</script>
+
+</body>
+</html>
