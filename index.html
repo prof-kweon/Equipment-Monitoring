@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>메인 대시보드</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: #eef2f7;
+      color: #1f2933;
+      padding: 32px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 24px;
+      letter-spacing: 2px;
+    }
+
+    /* 라인 버튼 */
+    .line-button-container {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .line-btn-row {
+      width: 100%;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .line-btn-row:hover {
+      background: #e8eff7;
+      border-color: #d0d7e2;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-rows: minmax(140px, auto);
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+      font-size: 13px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .sub-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .badge-running {
+      background: #16a34a;
+    }
+
+    .badge-stopped {
+      background: #dc2626;
+    }
+
+    .badge-maint {
+      background: #9ca3af;
+      color: #111827;
+    }
+
+    .line-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .line-row span:first-child {
+      color: #4b5563;
+    }
+
+    .chart-area {
+      margin-top: 6px;
+    }
+
+    .chart-line {
+      height: 40px;
+      border-radius: 6px;
+      background: linear-gradient(
+        90deg,
+        #3b82f6 10%,
+        #1d4ed8 40%,
+        #60a5fa 75%,
+        #1d4ed8 100%
+      );
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 60px;
+    }
+
+    .chart-bar {
+      flex: 1;
+      background: #bfdbfe;
+      border-radius: 3px 3px 0 0;
+    }
+
+    .chart-bar:nth-child(1) { height: 45%; }
+    .chart-bar:nth-child(2) { height: 55%; }
+    .chart-bar:nth-child(3) { height: 48%; }
+    .chart-bar:nth-child(4) { height: 70%; }
+    .chart-bar:nth-child(5) { height: 62%; }
+    .chart-bar:nth-child(6) { height: 52%; }
+    .chart-bar:nth-child(7) { height: 80%; }
+    .chart-bar:nth-child(8) { height: 68%; }
+
+    .bar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 10px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-left: 12px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: #1d4ed8;
+    }
+
+    .util-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 6px;
+    }
+
+    .donut {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: conic-gradient(#1d4ed8 0 260deg, #e5e7eb 260deg 360deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .donut-inner {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .util-text-main {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .util-text-sub {
+      font-size: 24px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .muted {
+      color: #6b7280;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .kpi-grid div {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .kpi-value {
+      font-weight: 600;
+    }
+
+    .kpi-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .kpi-row span:last-child {
+      font-weight: 600;
+    }
+
+    .kpi-summary-bar {
+      margin-top: 12px;
+    }
+
+    .kpi-summary-track {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .kpi-summary-part1 { flex: 2; background: #1d4ed8; }
+    .kpi-summary-part2 { flex: 1.2; background: #60a5fa; }
+    .kpi-summary-part3 { flex: 0.8; background: #bfdbfe; }
+
+    .alerts-row {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .alerts-box {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      border-radius: 8px;
+      background: #f3f4f6;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>메인 대시보드</h1>
+
+  <div class="dashboard-grid">
+
+    <!-- 기존 카드들 동일 (생략 없이 그대로 유지) -->
+    <!-- ⭐ 이미 제공하신 카드 전체를 그대로 둡니다 ⭐ -->
+
+  <!-- 공장 개요 / 라인 상태 -->
+  <div class="card">
+    <div class="card-title">공장 개요</div>
+    <div class="sub-title">생산 라인 선택</div>
+
+    <button class="line-btn-row" onclick="location.href='line1.html'">
+      <span>라인 1</span>
+      <span class="badge badge-running">가동</span>
+    </button>
+
+    <button class="line-btn-row" onclick="alert('라인 2 페이지 준비 중')">
+      <span>라인 2</span>
+      <span class="badge badge-stopped">정지</span>
+    </button>
+
+    <button class="line-btn-row" onclick="alert('라인 3 페이지 준비 중')">
+      <span>라인 3</span>
+      <span class="badge badge-maint">정비 중</span>
+    </button>
+
+    <button class="line-btn-row" onclick="alert('라인 4 페이지 준비 중')">
+      <span>라인 4</span>
+      <span class="badge badge-maint">정비 중</span>
+    </button>
+  </div>
+
+    <!-- ⬇️ (중략)  
+         아래 부분은 질문에서 제공해주신 HTML과 완전히 동일하게 유지됩니다.
+         전체 코드 그대로 넣어두었습니다.
+    -->
+
+    <!-- 생산 목표 대비 실적 -->
+    <div class="card">
+      <div class="card-title">생산 목표 대비 실적</div>
+      <div class="chart-area">
+        <div class="chart-line"></div>
+        <div class="chart-bars">
+          <div class="chart-bar"></div>
+          <div class="chart-bar"></div>
+          <div class="chart-bar"></div>
+          <div class="chart-bar"></div>
+          <div class="chart-bar"></div>
+          <div class="chart-bar"></div>
+          <div class="chart-bar"></div>
+          <div class="chart-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 재고 현황 -->
+    <div class="card">
+      <div class="card-title">재고 현황</div>
+      <div class="bar-row">
+        <span>원자재</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 70%;"></div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <span>완제품</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 55%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 설비 가동률 -->
+    <div class="card">
+      <div class="card-title">설비 가동률</div>
+      <div class="util-row">
+        <div class="donut">
+          <div class="donut-inner">72%</div>
+        </div>
+        <div>
+          <div class="muted">가동률</div>
+          <div class="util-text-main">72%</div>
+          <div class="muted" style="margin-top:8px;">가동 중 설비 수</div>
+          <div class="util-text-sub">3</div>
+        </div>
+      </div>
+      <div class="alerts-row">
+        <div class="muted">정비 알림</div>
+        <div class="alerts-box">3</div>
+      </div>
+    </div>
+
+    <!-- 품질 지표 -->
+    <div class="card">
+      <div class="card-title">품질 지표</div>
+      <div class="kpi-grid">
+        <div>
+          <span>불량률</span><span class="kpi-value">3.8%</span>
+        </div>
+        <div>
+          <span>합격률</span><span class="kpi-value">94.7%</span>
+        </div>
+        <div></div>
+        <div>
+          <span>재작업률</span><span class="kpi-value">1.5%</span>
+        </div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <!-- 물류 & 출하 -->
+    <div class="card">
+      <div class="card-title">물류 &amp; 출하</div>
+      <div class="bar-row">
+        <span>출하 대기</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 40%;"></div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <span>출하 완료</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 80%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 안전 & 환경 -->
+    <div class="card">
+      <div class="card-title">안전 &amp; 환경</div>
+      <div class="bar-row">
+        <span>사고 건수</span>
+        <span>2</span>
+      </div>
+      <div class="bar-row">
+        <span>사고 발생</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 35%;"></div>
+        </div>
+      </div>
+      <div class="bar-row" style="margin-top:6px;">
+        <span>에너지 사용</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 65%;"></div>
+        </div>
+      </div>
+      <div class="bar-row" style="margin-top:6px;">
+        <span>배출량</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 45%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI 요약 -->
+    <div class="card">
+      <div class="card-title">KPI 요약</div>
+      <div class="kpi-row">
+        <span>OEE</span><span>86%</span>
+      </div>
+      <div class="kpi-row">
+        <span>생산량</span><span>240</span>
+      </div>
+      <div class="kpi-row">
+        <span>납기 준수율</span><span>95%</span>
+      </div>
+      <div class="kpi-row">
+        <span>단위 원가</span><span>₩ 18.5</span>
+      </div>
+    </div>
+
+    <!-- KPI 막대 요약 -->
+    <div class="card">
+      <div class="card-title">KPI 요약 (지표 분포)</div>
+      <div class="kpi-summary-bar">
+        <div class="kpi-summary-track">
+          <div class="kpi-summary-part1"></div>
+          <div class="kpi-summary-part2"></div>
+          <div class="kpi-summary-part3"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
