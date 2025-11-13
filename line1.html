@@ -6,222 +6,183 @@
 
 <style>
 /* RESET */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #ffffff;
-  color: #111827;
-  padding: 40px 0;
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:#ffffff;
+  color:#111;
+  padding:40px 0;
 }
 
-/* 공통 컨테이너: 모든 요소 동일한 정렬 폭 */
-.container {
-  width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;        /* 중앙 정렬 */
-  padding: 0 24px;       /* 양쪽 동일 패딩 */
+/* 공통 컨테이너 */
+.container{
+  width:100%;
+  max-width:1300px;
+  margin:0 auto;
+  padding:0 24px;
 }
 
 /* -------------------------------- HEADER -------------------------------- */
-.header-bar {
-  background: #f3f4f6;
-  padding: 32px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+.header-bar{
+  background:#f3f4f6;
+  padding:32px;
+  border-radius:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:40px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-.header-left h1 {
-  font-size: 46px;
-  font-weight: 900;
+.header-left h1{
+  font-size:46px;
+  font-weight:900;
 }
 
-.status-badge {
-  background: #16a34a;
-  padding: 10px 22px;
-  font-size: 22px;
-  color: #fff;
-  font-weight: 800;
-  border-radius: 999px;
+.status-badge{
+  background:#16a34a;
+  padding:10px 22px;
+  font-size:22px;
+  color:#fff;
+  border-radius:999px;
+  font-weight:800;
 }
 
-.back-btn {
-  padding: 14px 24px;
-  background: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 20px;
-  cursor: pointer;
+.back-btn{
+  padding:14px 24px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  font-size:20px;
+  font-weight:700;
+  cursor:pointer;
 }
 
-/* -------------------------------- PROCESS ICONS -------------------------------- */
-
-.process-row {
-  margin-bottom: 40px;
-  background: #f8fafc;
-  border-radius: 18px;
-  padding: 28px 32px;
-  border: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* -------------------------------- PROCESS ICON ROW -------------------------------- */
+.process-row{
+  margin-bottom:40px;
+  background:#f8fafc;
+  border-radius:18px;
+  padding:28px 32px;
+  display:flex;
+  justify-content:space-between;
+  border:1px solid #e5e7eb;
 }
 
-.process-item {
-  width: 110px;
-  text-align: center;
-  padding: 16px 10px;
-  border-radius: 14px;
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
-  transition: 0.2s;
+.process-item{
+  width:110px;
+  text-align:center;
+  padding:16px 10px;
+  border-radius:14px;
+  background:#f3f4f6;
+  border:1px solid #d1d5db;
+  transition:0.2s;
 }
-
-.process-item:hover {
-  background: #e5e7eb;
-}
-
-.process-item img {
-  width: 70px;
-}
-
-.process-item span {
-  display: block;
-  margin-top: 6px;
-  font-size: 18px;
-  font-weight: 700;
+.process-item:hover{background:#e5e7eb;}
+.process-item img{width:70px;}
+.process-item span{
+  display:block;
+  margin-top:6px;
+  font-size:18px;
+  font-weight:700;
 }
 
 /* -------------------------------- CONTENT GRID -------------------------------- */
-
-.content-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 28px;
+.content-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:30px;
 }
 
 /* -------------------------------- CARD -------------------------------- */
-
-.card {
-  background: #f9fafb;
-  padding: 28px;
-  border-radius: 18px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+.card{
+  background:#f9fafb;
+  padding:28px;
+  border-radius:18px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
 }
 
-.card-title {
-  font-size: 30px;
-  font-weight: 900;
-  margin-bottom: 20px;
+.card-title{
+  font-size:28px;
+  font-weight:900;
+  margin-bottom:20px;
 }
 
-/* -------------------------------- INNER CARDS -------------------------------- */
-
-.inner-row {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+/* 내부 항목 */
+.inner{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
 }
 
-.inner-card {
-  background: white;
-  border-radius: 16px;
-  border: 1px solid #e5e7eb;
-  padding: 26px 24px;
-
-  min-width: 200px;
-  flex: 1;
-
-  /* 내용 중앙 정렬 */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+/* 큰 숫자 */
+.big-number{
+  font-size:54px;
+  font-weight:900;
+  color:#1e40af;
 }
 
-.inner-title {
-  font-size: 22px;
-  font-weight: 800;
-  margin-bottom: 12px;
+/* -------------------------------- 반원 게이지 -------------------------------- */
+.semi-gauge{
+  position:relative;
+  width:260px;
+  height:140px;
+  margin:0 auto;
+  overflow:hidden;
 }
 
-.big-number {
-  font-size: 56px;
-  font-weight: 900;
-  color: #1e40af;
+.gauge-bg{
+  position:absolute;
+  width:260px;
+  height:260px;
+  left:0;
+  bottom:0;
+  background:#d1d5db;
+  border-radius:50%;
 }
 
-.big-sub {
-  font-size: 24px;
-  font-weight: 700;
-  color: #475569;
+/* 50~90% 구간만 초록색 표시 */
+.gauge-green{
+  position:absolute;
+  width:260px;
+  height:260px;
+  left:0;
+  bottom:0;
+  border-radius:50%;
+  clip-path:inset(130px 0 0 0);
+  background:conic-gradient(
+    transparent 0deg 90deg,
+    #16a34a 90deg 162deg,
+    transparent 162deg 360deg
+  );
 }
 
-/* -------------------------------- GAUGE -------------------------------- */
-.gauge-wrap {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-.gauge {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background: conic-gradient(#2563eb 0 280deg, #e2e8f0 280deg 360deg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.gauge-inner {
-  width: 95px;
-  height: 95px;
-  background: white;
-  border-radius: 50%;
-  font-size: 32px;
-  font-weight: 900;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* 바늘 */
+.needle{
+  position:absolute;
+  width:4px;
+  height:120px;
+  background:#000;
+  left:50%;
+  bottom:0;
+  transform-origin:bottom center;
+  transform:translateX(-50%) rotate(0deg);
 }
 
-/* -------------------------------- BAR -------------------------------- */
-.bar-track {
-  width: 100%;
-  height: 18px;
-  background: #e2e8f0;
-  border-radius: 10px;
-  margin: 12px 0;
-}
-
-.bar-fill {
-  height: 100%;
-  background: #2563eb;
-  border-radius: 10px;
-}
-
-/* -------------------------------- RESPONSIVE -------------------------------- */
-
-@media(max-width: 1200px) {
-  .content-grid { grid-template-columns: 1fr; }
-}
-
-@media(max-width: 768px) {
-  .process-row {
-    flex-wrap: wrap;
-    gap: 18px;
-    justify-content: center;
-  }
+/* 숫자 */
+.gauge-text{
+  position:absolute;
+  width:100%;
+  bottom:-10px;
+  left:0;
+  text-align:center;
+  font-size:32px;
+  font-weight:900;
 }
 </style>
 </head>
@@ -229,231 +190,119 @@ body {
 
 <body>
 
-<!-- HEADER -->
 <div class="container">
+
+  <!-- HEADER -->
   <div class="header-bar">
     <div class="header-left">
       <h1>라인 1</h1>
-      <div style="margin-top: 6px; font-size: 20px;">
+      <div style="margin-top:6px;font-size:20px;">
         상태: <span class="status-badge">가동 중</span>
       </div>
     </div>
     <button class="back-btn" onclick="location.href='index.html'">← 메인으로</button>
   </div>
-</div>
 
-<!-- PROCESS ICONS 
-<div class="container">
-  <div class="process-row">
-
-    <a class="process-item" href="uncoiling.html">
-      <img src="./icons/uncoiling.svg">
-      <span>언코일링</span>
-    </a>
-
-    <a class="process-item" href="slitting.html">
-      <img src="./icons/slitting.svg">
-      <span>슬리팅</span>
-    </a>
-
-    <a class="process-item" href="forming.html">
-      <img src="./icons/forming.svg">
-      <span>성형</span>
-    </a>
-
-    <a class="process-item" href="welding.html">
-      <img src="./icons/welding.svg">
-      <span>용접</span>
-    </a>
-
-    <a class="process-item" href="beadremoving.html">
-      <img src="./icons/beadremoving.svg">
-      <span>비드 제거</span>
-    </a>
-
-    <a class="process-item" href="cooling.html">
-      <img src="./icons/cooling.svg">
-      <span>냉각</span>
-    </a>
-
-    <a class="process-item" href="inspection.html">
-      <img src="./icons/inspection.svg">
-      <span>검사</span>
-    </a>
-
-    <a class="process-item" href="painting.html">
-      <img src="./icons/painting.svg">
-      <span>도장</span>
-    </a>
-
-    <a class="process-item" href="shipping.html">
-      <img src="./icons/shipping.svg">
-      <span>출하</span>
-    </a>
-
-  </div>
-</div> -->
-<div class="container">
+  <!-- PROCESS ICONS -->
   <div class="process-row">
     <a class="process-item" href="process.html?process=uncoiling">
-    <img src="./icons/uncoiling.svg">
-    <span>언코일링</span>
+      <img src="./icons/uncoiling.svg"><span>언코일링</span>
     </a>
-
     <a class="process-item" href="process.html?process=slitting">
-    <img src="./icons/slitting.svg">
-    <span>슬리팅</span>
+      <img src="./icons/slitting.svg"><span>슬리팅</span>
     </a>
-
     <a class="process-item" href="process.html?process=forming">
-    <img src="./icons/forming.svg">
-    <span>성형</span>
+      <img src="./icons/forming.svg"><span>성형</span>
     </a>
-
     <a class="process-item" href="process.html?process=welding">
-    <img src="./icons/welding.svg">
-    <span>용접</span>
+      <img src="./icons/welding.svg"><span>용접</span>
     </a>
-
     <a class="process-item" href="process.html?process=beadremoving">
-    <img src="./icons/beadremoving.svg">
-    <span>비드 제거</span>
+      <img src="./icons/beadremoving.svg"><span>비드 제거</span>
     </a>
-
     <a class="process-item" href="process.html?process=cooling">
-    <img src="./icons/cooling.svg">
-    <span>냉각</span>
+      <img src="./icons/cooling.svg"><span>냉각</span>
     </a>
-
     <a class="process-item" href="process.html?process=inspection">
-    <img src="./icons/inspection.svg">
-    <span>검사</span>
+      <img src="./icons/inspection.svg"><span>검사</span>
     </a>
-
     <a class="process-item" href="process.html?process=painting">
-    <img src="./icons/painting.svg">
-    <span>도장</span>
+      <img src="./icons/painting.svg"><span>도장</span>
     </a>
-
     <a class="process-item" href="process.html?process=shipping">
-    <img src="./icons/shipping.svg">
-    <span>출하</span>
+      <img src="./icons/shipping.svg"><span>출하</span>
     </a>
   </div>
-</div>
 
-<!-- CONTENT GRID -->
-<div class="container">
+  <!-- 2x2 CARD GRID -->
   <div class="content-grid">
 
-    <!-- 생산 -->
+    <!-- 생산 성과 -->
     <div class="card">
       <div class="card-title">생산 성과</div>
-      <div class="inner-row">
-
-        <div class="inner-card">
-          <div class="inner-title">현재 생산량</div>
-          <div class="big-number">520</div>
-        </div>
-
-        <div class="inner-card">
-          <div class="inner-title">목표 대비</div>
-          <div class="big-number">115%</div>
-        </div>
-
-        <div class="inner-card">
-          <div class="inner-title">Cycle Time</div>
-          <div class="big-number">50.2s</div>
-        </div>
-
-      </div>
+      <div class="inner"><div class="big-number">520</div>현재 생산량</div>
+      <div class="inner" style="margin-top:20px;"><div class="big-number">115%</div>목표 대비</div>
     </div>
 
-    <!-- 설비 상태 -->
+    <!-- 설비 상태 (가동률 + 에너지) -->
     <div class="card">
       <div class="card-title">설비 상태</div>
-      <div class="inner-row">
 
-        <div class="inner-card">
-          <div class="inner-title">가동률</div>
-          <div class="gauge-wrap">
-            <div class="gauge"><div class="gauge-inner">78%</div></div>
-          </div>
-        </div>
-
+      <div class="semi-gauge">
+        <div class="gauge-bg"></div>
+        <div class="gauge-green"></div>
+        <div id="needle" class="needle"></div>
+        <div id="gaugeValue" class="gauge-text">82%</div>
       </div>
-    </div>
 
-    <!-- 안전 -->
-    <div class="card">
-      <div class="card-title">안전 정보</div>
-      <div class="inner-row">
-
-        <div class="inner-card">
-          <div class="inner-title">안전 알림</div>
-          <div class="big-number">3</div>
-        </div>
-
-        <div class="inner-card">
-          <div class="inner-title">최근 사고</div>
-          <div class="big-number">0</div>
-        </div>
-
+      <div class="inner" style="margin-top:20px;">
+        <div class="big-number">3.44</div><div style="font-size:22px;">MWh 사용</div>
       </div>
     </div>
 
     <!-- 품질 -->
     <div class="card">
-      <div class="card-title">품질 지표</div>
-      <div class="inner-row">
-
-        <div class="inner-card">
-          <div class="inner-title">불량률</div>
-          <div class="big-number">2.1%</div>
-        </div>
-
-        <div class="inner-card">
-          <div class="inner-title">검사 합격률</div>
-          <div class="big-number">98.5%</div>
-        </div>
-
+      <div class="card-title">품질</div>
+      <div class="inner">
+        <div class="big-number">2.1%</div>
+        불량률
       </div>
-    </div>
 
-    <!-- 유지보수 -->
-    <div class="card">
-      <div class="card-title">유지보수</div>
-      <div class="inner-row">
-        <div class="inner-card">
-          <div class="inner-title">에너지 사용량</div>
-          <div class="big-number">3.44</div>
-          <div class="big-sub">MWh</div>
-        </div>
+      <div class="inner" style="margin-top:20px;">
+        <div class="big-number">98.5%</div>
+        검사 합격률
       </div>
     </div>
 
     <!-- 재고 -->
     <div class="card">
       <div class="card-title">재고 현황</div>
-      <div class="inner-row">
 
-        <div class="inner-card">
-          <div class="inner-title">원자재</div>
-          <div class="big-number">70%</div>
-          <div class="bar-track"><div class="bar-fill" style="width:70%"></div></div>
-        </div>
+      <div class="inner">
+        <div class="big-number">70%</div>원자재
+      </div>
 
-        <div class="inner-card">
-          <div class="inner-title">완제품</div>
-          <div class="big-number">55%</div>
-          <div class="bar-track"><div class="bar-fill" style="width:55%"></div></div>
-        </div>
-
+      <div class="inner" style="margin-top:20px;">
+        <div class="big-number">55%</div>완제품
       </div>
     </div>
 
   </div>
+
 </div>
+
+
+<script>
+/* 반원 게이지 바늘 회전 */
+document.addEventListener("DOMContentLoaded", () => {
+    const value = 82;  
+    const degree = (value / 100) * 180;
+
+    document.getElementById("gaugeValue").textContent = value + "%";
+    document.getElementById("needle").style.transform =
+        `translateX(-50%) rotate(${degree}deg)`;
+});
+</script>
 
 </body>
 </html>
